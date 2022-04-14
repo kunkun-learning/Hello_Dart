@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:math';
 // import 'package:test/test.dart';
 // import 'path/to/my_other_file.dart';
 
@@ -66,5 +64,4 @@ void main(List<String> args) {
   // 注释hh
 
   // 导入,开头已经导入,这里测试一下math库中的函数
-  var num = max(10, 17);
 }
