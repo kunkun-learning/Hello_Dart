@@ -1,4 +1,4 @@
-// 静态服务器 （）
+// 静态服务器 （https://github.com/dart-lang/samples/blob/master/server/simple/bin/server.dart）
 
 import 'dart:io';
 import 'dart:async';
@@ -11,15 +11,15 @@ import 'package:shelf_static/shelf_static.dart' as shelf_static;
 
 Future<void> main(List<String> args) async {
   // 从环境变量里读取 PORT 变量用作端口，斗则用 '8080'
-  // ?? 快捷操作符（）
+  // ?? 快捷操作符（https://blog.csdn.net/nimeghbia/article/details/100921620）
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
 
-  // 一个请求队列（）
+  // 一个请求队列（https://pub.dev/documentation/shelf/latest/shelf/Cascade-class.html）
   final cascade = Cascade().add(_staticHandler);
 
-  // 启动一个 HTTP 服务（）
+  // 启动一个 HTTP 服务（https://pub.dev/documentation/shelf/latest/shelf_io/serve.html）
   final server = await shelf_io.serve(
-      // 处理请求的时候，顺便做个日志（）
+      // 处理请求的时候，顺便做个日志（https://pub.dev/documentation/shelf/latest/shelf/logRequests.html）
       logRequests().addHandler(cascade.handler),
       InternetAddress.anyIPv4,
       port);
