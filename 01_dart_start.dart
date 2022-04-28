@@ -73,7 +73,7 @@ void functions() {
 
   var hit_lines = flybyObjects.where((x) => is_hit(x, 'kunkun'));
   for (var one in hit_lines) {
-    print('one is $one');
+    print('one : $one');
   }
 
   print('');
