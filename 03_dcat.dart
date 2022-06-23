@@ -1,4 +1,4 @@
-// 命令行 （）
+// 命令行（https://dart.cn/tutorials/server/cmdline#overview-of-the-dcat-app-code）
 
 import 'dart:io';
 import 'dart:convert';
@@ -23,12 +23,11 @@ Future<void> dcat(List<String> paths, {bool showLineNumbers = false}) async {
     while (true) {
       stdout.write('>');
       String? line = stdin.readLineSync();
-      print('${line}\n');
-
       if (line?.toLowerCase() == 'exit') {
-        print('bye~');
+        print('有缘再见！');
         break;
       }
+      print('假装已经执行${line}命令！');
     }
   } else {
     for (final path in paths) {
