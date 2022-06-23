@@ -6,10 +6,9 @@ import 'dart:math';
 void variables() {
   print('\n');
   print('*' * 50);
-  print('\n变量测试:\n');
-
-  var name = 'Voyager I';
-  var year = 1977;
+  print('\n变量测试:');
+  var name = 'ShiZhenKun';
+  var year = 2002;
   var antennaDiameter = 3.7;
   var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];
   var image = {
@@ -18,31 +17,33 @@ void variables() {
   };
 
   print(
-      'name is $name, year is $year, antennaDiameter is $antennaDiameter, flybyObjects is $flybyObjects, image is $image\n');
+      'name: $name, year: $year, antennaDiameter: $antennaDiameter, flybyObjects: $flybyObjects, image: $image\n');
 
   print('*' * 50);
 }
 
 // 流程控制语句 (https://dart.cn/samples#control-flow-statements)
 void controlFlowStatements() {
-  print('\n流程控制语句测试:\n');
-
+  print('\n流程控制语句测试:');
   var year = 2014;
   if (year >= 2001) {
+    // if else if 判断
     print('21st century');
   } else if (year >= 1901) {
     print('20th century');
   }
 
+  // 循环输出
   var flybyObjects = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'];
   for (final object in flybyObjects) {
-    print(object);
+    stdout.write(object + ' ');
   }
-
+  print('');
   for (int month = 1; month <= 12; month++) {
-    print(month);
+    stdout.write(month);
+    stdout.write(' ');
   }
-
+  print('');
   while (year < 2016) {
     year += 1;
   }
@@ -63,17 +64,19 @@ bool is_hit(String line, String target) {
 }
 
 void functions() {
-  print('\n函数测试:\n');
+  print('\n函数测试:');
 
   var fib = fibonacci(10);
-  print('fib 10 is $fib');
+  print('fib(10) = $fib');
 
-  var flybyObjects = ['hello', 'my name is kunkun', '58451', '好好学习，天天向上'];
-  flybyObjects.where((name) => name.contains('kunkun')).forEach(print);
+  var flybyObjects = ['hello', '输出含有kunkun的字符串', '58451', '好好学习，天天向上'];
+  flybyObjects
+      .where((name) => name.contains('kunkun'))
+      .forEach(print); // 函数的胖箭头写法
 
-  var hit_lines = flybyObjects.where((x) => is_hit(x, 'kunkun'));
+  var hit_lines = flybyObjects.where((x) => is_hit(x, '5'));
   for (var one in hit_lines) {
-    print('one : $one');
+    print('输出含有5的字符串 : $one');
   }
 
   print('');
@@ -82,7 +85,7 @@ void functions() {
 
 // 注释 (https://dart.cn/samples#comments)
 void comments() {
-  print('\n注释测试:\n');
+  print('\n注释测试:');
 
   // 比较常用的注释就是双斜杠
 
@@ -100,7 +103,7 @@ void comments() {
 
 // 导入 (https://dart.cn/samples#imports)
 void imports() {
-  print('\n导入测试:\n');
+  print('\n导入测试:');
 
   var mypi = pi;
   print('pi = $mypi');
@@ -114,45 +117,31 @@ void imports() {
 }
 
 // 类 (https://dart.cn/samples#classes)
+// 类的属性不赋初值会报错，因此可以用 late 或者？来修饰
 class Spacecraft {
   String name;
   DateTime? launchDate;
-
-  // Read-only non-final property
   int? get launchYear => launchDate?.year;
-
-  // Constructor, with syntactic sugar for assignment to members.
-  Spacecraft(this.name, this.launchDate) {
-    // TODO: init.
-  }
-
-  // Named constructor that forwards to the default one.
+  Spacecraft(this.name, this.launchDate) {} // dart构造参数的一种写法，高效简洁
   Spacecraft.unlaunched(String name) : this(name, null);
-
-  // Methods.
   void describe() {
     print('Spacecraft: $name');
-
-    //Type promotion dos not work on getters.
     var launchDate = this.launchDate;
     if (launchDate != null) {
       int years = DateTime.now().difference(launchDate).inDays ~/ 365;
       print('Launched: $launchYear ($years years ago)');
     } else {
-      print('Unlaunched');
+      print('Unlaunched！');
     }
   }
 }
 
 void classes() {
-  print('\n类测试:\n');
-
-  var voyager = Spacecraft('Voyager I', DateTime(2002, 8, 17));
-  var voyager3 = Spacecraft.unlaunched('Voyager III');
-
-  voyager.describe();
-  voyager3.describe();
-
+  print('\n类测试:');
+  var voyager1 = Spacecraft('Voyager I', DateTime(2002, 8, 17));
+  var voyager2 = Spacecraft.unlaunched('Voyager III');
+  voyager1.describe();
+  voyager2.describe();
   print('');
   print('*' * 50);
 }
@@ -160,19 +149,19 @@ void classes() {
 // 扩展类（继承） (https://dart.cn/samples#inheritance)
 class Orbiter extends Spacecraft {
   double altitude;
-
   Orbiter(String name, DateTime launchDate, this.altitude)
-      : super(name, launchDate);
+      : super(name, launchDate); // 构造方法继承父类
 
   @override
   void describe() {
+    // 重写了describe方法，其实就是在原来的describe加了一条输出信息
     super.describe();
     print('altitude is $altitude km');
   }
 }
 
 void inheritance() {
-  print('\n扩展类（继承）测试:\n');
+  print('\n继承测试:');
 
   var obt = Orbiter('天宫号', DateTime(2021, 4, 29), 389.2);
   obt.describe();
@@ -182,6 +171,7 @@ void inheritance() {
 }
 
 // Mixins (https://dart.cn/samples#mixins)
+// 可以增加代码的复用性，用关键词with
 mixin Piloted {
   int astronauts = 1;
 
@@ -195,7 +185,7 @@ class PilotedCraft extends Spacecraft with Piloted {
 }
 
 void mixins() {
-  print('\n扩展类（继承）测试:\n');
+  print('\nmixins测试:');
 
   var plt = PilotedCraft('神舟1号', DateTime(1999, 11, 20));
   plt.describe();
@@ -206,6 +196,7 @@ void mixins() {
 }
 
 // 接口和抽象类 (https://dart.cn/samples#interfaces-and-abstract-classes)
+// Dart 没有 interface 关键字。所有的类都隐式定义了一个接口。因此，任意类都可以作为接口被实现。
 class MockSpaceship implements Spacecraft {
   @override
   DateTime? launchDate;
@@ -225,7 +216,7 @@ class MockSpaceship implements Spacecraft {
 }
 
 void interface_and_abstract_classes() {
-  print('\n接口和抽象类测试:\n');
+  print('\n接口和抽象类测试:');
 
   var mock = MockSpaceship('测试飞行器', null);
   mock.describe();
@@ -235,13 +226,12 @@ void interface_and_abstract_classes() {
 }
 
 // 异步 (https://dart.cn/samples#async)
+// 使用 async 和 await 关键字可以让你避免回调
 Future<void> the_async() async {
-  print('\n异步测试:\n');
-
-  const oneSecond = Duration(seconds: 1);
-
+  print('\n异步测试:');
+  const seconds = Duration(seconds: 1);
   Future<void> printWithDelay1(String message) async {
-    await Future.delayed(oneSecond);
+    await Future.delayed(seconds);
     print(message);
   }
 
@@ -249,7 +239,7 @@ Future<void> the_async() async {
   print('done 1.');
 
   Future<void> printWithDelay2(String message) {
-    return Future.delayed(oneSecond).then((_) {
+    return Future.delayed(seconds).then((_) {
       print(message);
     });
   }
@@ -285,34 +275,6 @@ Future<void> the_async() async {
   print('*' * 50);
 }
 
-// Stream (https://www.jianshu.com/p/f9af079782af)
-Future<void> the_stream() async {
-  print('\nStream测试:\n');
-
-  const oneSecond = Duration(seconds: 1);
-
-  StreamController<double> ctl = StreamController<double>();
-  Stream stm = ctl.stream;
-
-  stm.listen((event) {
-    print('event from controller is: $event');
-  });
-
-  Future<void> addWithDelay(value) async {
-    await Future.delayed(oneSecond);
-    ctl.add(value);
-  }
-
-  addWithDelay(11.1);
-  addWithDelay(22.2);
-  addWithDelay(33.3);
-
-  await Future.delayed(Duration(seconds: 5));
-
-  print('');
-  print('*' * 50);
-}
-
 // 异常 (https://dart.cn/samples#exceptions)
 Future<void> show_descriptions(flybyObjects) async {
   try {
@@ -328,13 +290,9 @@ Future<void> show_descriptions(flybyObjects) async {
 }
 
 void exceptions() {
-  print('\n异常测试:\n');
-
+  print('\n异常测试:');
   var flybyObjects = ['飞机', '火箭', '铲土车', '手机'];
   show_descriptions(flybyObjects);
-
-  print('');
-  print('*' * 50);
 }
 
 Future<void> main(List<String> args) async {
@@ -365,11 +323,8 @@ Future<void> main(List<String> args) async {
   // 接口和抽象类
   interface_and_abstract_classes();
 
-  // 异步
+// 异步
   await the_async();
-
-  // Steam
-  await the_stream();
 
   // 异常
   exceptions();
